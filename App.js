@@ -1,21 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+} from "react-native";
+import Home from "./screens/Home";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Navigation from "./components/Navigation/Navigation";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+//import { Text } from "react-native";
 
+const image = { uri: "https://reactjs.org/logo-og.png" };
 export default function App() {
+  const Tab = createBottomTabNavigator();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Navigation />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: "red",
+  },
+  image: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+  },
+  firstTitle: {
+    color: "#606060",
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "white",
+  },
+  secondTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "white",
   },
 });
