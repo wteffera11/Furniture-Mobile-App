@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export default function Notifications() {
+export default function CheckOout() {
   return (
     <View>
-      <Text>Notifications</Text>
+      <Text>Check out</Text>
     </View>
   );
 }

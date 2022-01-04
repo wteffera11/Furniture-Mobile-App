@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   ScrollView,
 } from "react-native";
 import Fontiso from "react-native-vector-icons/Fontisto";
+import { addToCart } from "../contexts/actions";
+import { CartContext } from "../contexts/CartContext";
 
 const items = [
   {
@@ -67,37 +69,43 @@ const items = [
     price: "$12.22",
   },
 ];
-export default function FurnitureItems() {
+
+export default function FurnitureItems({ navigation }) {
+  const [state, dispatch] = useContext(CartContext);
+
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <TouchableOpacity activeOpacity={1} style={styles.imageWrapper}>
-        {items.map((item, index) => (
-          <View
-            style={[
-              styles.imageCard,
-              { paddingLeft: index % 2 !== 0 ? 10 : 0 },
-            ]}
-            key={index}
-          >
-            <ImageContainer image={item.image} />
-            <ImageInfoContainer name={item.name} price={item.price} />
-          </View>
-        ))}
-      </TouchableOpacity>
-    </ScrollView>
+    <View
+      //activeOpacity={0.2}
+      style={styles.imageWrapper}
+      //onPress={() => navigation.navigate("Product")}
+    >
+      {items.map((item, index) => (
+        <TouchableOpacity
+          style={[styles.imageCard, { paddingLeft: index % 2 !== 0 ? 10 : 0 }]}
+          key={index}
+          onPress={() => navigation.navigate("Product", { item: item })}
+        >
+          <ImageContainer
+            item={item}
+            addToCart={() => dispatch(addToCart(item))}
+          />
+          <ImageInfoContainer name={item.name} price={item.price} />
+        </TouchableOpacity>
+      ))}
+    </View>
   );
 }
 
-const ImageContainer = ({ image }) => {
+const ImageContainer = ({ item, addToCart }) => {
   return (
     <>
       <Image
         style={styles.images}
         source={{
-          uri: image,
+          uri: item.image,
         }}
       />
-      <TouchableOpacity style={styles.bagIcon}>
+      <TouchableOpacity style={styles.bagIcon} onPress={() => addToCart(item)}>
         <Fontiso name="shopping-bag" size={20} color="#fff" />
       </TouchableOpacity>
     </>
